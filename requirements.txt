@@ -1,0 +1,4 @@
+arrow==0.4.4
+fusepy==2.0.2
+PIL==1.1.7
+tweepy==2.3.0
