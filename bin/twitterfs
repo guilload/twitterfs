@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+
+import logging
+import sys
+
+sys.path.append('.')
+
+from fuse import FUSE
+
+from twitterfs import TwitterFS
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print 'usage: %s <mountpoint>' % sys.argv[0]
+        sys.exit(1)
+
+    logging.getLogger().setLevel(logging.DEBUG)
+    FUSE(TwitterFS(), sys.argv[1], debug=True, foreground=True)
