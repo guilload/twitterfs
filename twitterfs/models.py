@@ -21,10 +21,10 @@ def prettify(string, colorize=True):
 
         if colorize:
             if word.startswith('@'):
-                word = '\x1b[1;34m{}\x1b[m'.format(word)
+                word = '\x1b[1;34m{}\x1b[0m'.format(word)
 
             if word.startswith('http'):
-                word = '\x1b[4m{}\x1b[m'.format(word)
+                word = '\x1b[4m{}\x1b[0m'.format(word)
 
         lst.append(word)
 

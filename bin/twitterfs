@@ -12,7 +12,7 @@ from twitterfs import TwitterFS
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print 'usage: %s <mountpoint>' % sys.argv[0]
+        print 'usage: {} <mountpoint>'.format(sys.argv[0])
         sys.exit(1)
 
     logging.getLogger().setLevel(logging.DEBUG)

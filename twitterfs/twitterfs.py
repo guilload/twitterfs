@@ -116,12 +116,12 @@ class TwitterFS(LoggingMixIn, Operations):
         return self._fs[path].stat()
 
     def read(self, path, size, offset, fh):
-        if path.startswith(self._me.path):
+        if path == self._me.path:
             data = self._me.user_timeline
             self._fs[path].st_size = len(data)
             return data[offset:offset + size]
 
-        if path.startswith(('/followers/@', '/following/@')):  # FIXME
+        if path.startswith(('/followers/@', '/following/@')):
             user = self._users[path]
             user.refresh_user_timeline()
             data = str(user)
@@ -144,6 +144,6 @@ class TwitterFS(LoggingMixIn, Operations):
         pass
 
     def write(self, path, data, offset, fh):
-        if path.startswith(self._me.path):
+        if path == self._me.path:
             self.spawn(self._api.update_status, data)
             return len(data)
