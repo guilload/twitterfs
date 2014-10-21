@@ -4,7 +4,7 @@
 
 ```sh
 $ git clone git@github.com:guilload/twitterfs.git
-$ pip install install -r requirements
+$ pip install install -r requirements --allow-external PIL --allow-unverified PIL
 ```
 
 *PIL needs JPEG and zlib support (see [here](http://jj.isgeek.net/2011/09/install-pil-with-jpeg-support-on-ubuntu-oneiric-64bits/))*
