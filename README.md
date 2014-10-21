@@ -9,6 +9,17 @@ $ pip install install -r requirements
 
 *PIL needs JPEG and zlib support (see [here](http://jj.isgeek.net/2011/09/install-pil-with-jpeg-support-on-ubuntu-oneiric-64bits/))*
 
+## configuration
+
+```
+[twitter]
+consumer_key: <consumer key>
+consumer_secret: <consumer secret>
+
+access_token: <access token>
+access_token_secret: <access token secret>
+```
+
 ## mount
 ```sh
 $ mkdir <mounpoint>
