@@ -71,6 +71,8 @@ class User(tweepy.User):
         self._picture = None
         self._user_timeline = []
 
+        self._last_refreshed = arrow.utcnow().replace(seconds=-120)
+
     def __str__(self):
         return self.template.format(picture=self.picture,
                                     name=self.center(self.name),
@@ -137,10 +139,12 @@ class User(tweepy.User):
             return self.center(self.description)
 
     def refresh_user_timeline(self):
-        since_id = self._user_timeline[0].id if self._user_timeline else None
-        statuses = self._api.user_timeline(since_id=since_id)
-        statuses.extend(self._user_timeline)
-        self._user_timeline = statuses
+        if self._last_refreshed < arrow.utcnow().replace(seconds=-120):
+            since_id = self._user_timeline[0].id if self._user_timeline else None
+            statuses = self._api.user_timeline(self.id, since_id=since_id)
+            statuses.extend(self._user_timeline)
+            self._user_timeline = statuses
+            self._last_refreshed = arrow.utcnow()
 
     def refresh_home_timeline(self):
         since_id = self._home_timeline[0].id if self._home_timeline else None
