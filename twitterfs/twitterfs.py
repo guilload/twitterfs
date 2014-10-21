@@ -85,6 +85,15 @@ class TwitterFS(LoggingMixIn, Operations):
 
             time.sleep(self._refresh_rate)
 
+    @staticmethod
+    def spawn(target, *args):
+        """
+        Calls to twitter's API are slow, so let's trigger them in a thread
+        and give the user the sensation of instantaneity. Yes... this is a bit
+        ugly but... it works!
+        """
+        threading.Thread(target=target, args=args).start()
+
     def follow(self, path):
         if path not in self._fs:
             _, handle = os.path.split(path)
@@ -101,7 +110,7 @@ class TwitterFS(LoggingMixIn, Operations):
 
     def create(self, path, mode):
         if path.startswith('/following/@'):
-            self.follow(path)
+            self.spawn(self.follow, path)
 
     def getattr(self, path, fh):
         return self._fs[path].stat()
@@ -129,12 +138,12 @@ class TwitterFS(LoggingMixIn, Operations):
 
     def unlink(self, path):
         if path.startswith('/following/@'):
-            self.unfollow(path)
+            self.spawn(self.unfollow, path)
 
     def truncate(self, path, length, fh=None):
         pass
 
     def write(self, path, data, offset, fh):
         if path.startswith(self._me.path):
-            self._api.update_status(data)
+            self.spawn(self._api.update_status, data)
             return len(data)
